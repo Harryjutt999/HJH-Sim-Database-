@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HJH Sim Database - Professional Lookup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      color: #f8fafc;
+      min-height: 100vh;
+    }
+
+    body.light {
+      background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+      color: #1e293b;
+    }
+
+    /* Login Page Styles */
+    .login-page {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 100vh;
+    }
+
+    .login-page.hidden {
+      display: none;
+    }
+
+    /* Animated background particles */
+    .bg-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      background: rgba(56, 189, 248, 0.1);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .login-container {
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      position: relative;
+      z-index: 1;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo-icon {
+      font-size: 48px;
+      color: #38bdf8;
+      margin-bottom: 10px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .logo-text {
+      font-size: 28px;
+      font-weight: 700;
+      color: #38bdf8;
+      margin-bottom: 5px;
+    }
+
+    .logo-subtitle {
+      font-size: 14px;
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
+    .form-container {
+      position: relative;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form.hidden {
+      display: none;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 16px 20px 16px 50px;
+      border: 2px solid rgba(56, 189, 248, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #f8fafc;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .form-input:focus {
+      border-color: #38bdf8;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .form-input::placeholder {
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #38bdf8;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus + .input-icon {
+      color: #0ea5e9;
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+
+    .password-toggle:hover {
+      color: #38bdf8;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      border: none;
+      padding: 16px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+    }
+
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .submit-btn:hover::before {
+      left: 100%;
+    }
+
+    .forgot-password {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .forgot-password a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .forgot-password a:hover {
+      color: #0ea5e9;
+      text-decoration: underline;
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 30px;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .footer-text a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .footer-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* Loading animation */
+    .loading {
+      display: none;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Success message */
+    .success-message {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid #10b981;
+      color: #10b981;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Error message */
+    .error-message {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    .form-title {
+      text-align: center;
+      font-size: 24px;
+      font-weight: 600;
+      color: #38bdf8;
+      margin-bottom: 20px;
+    }
+
+    /* Database Page Styles */
+    .database-page {
+      display: none;
+    }
+
+    .database-page.show {
+      display: block;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px 25px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(8px);
+    }
+
+    body.light .header {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .header-logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      background: #38bdf8;
+      color: #000;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .logout-btn {
+      cursor: pointer;
+      background: #ef4444;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #dc2626;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .search-section {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .search-form {
+      display: grid;
+      gap: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .search-btn {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      font-size: 18px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .results-section {
+      display: none;
+      margin-bottom: 30px;
+    }
+
+    .results-section.show {
+      display: block;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .export-btn {
+      background: #10b981;
+      border: none;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 15px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .filter-input {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border-radius: 10px;
+      border: none;
+    }
+
+    .results-container {
+      display: grid;
+      gap: 20px;
+      margin: 20px 0;
+    }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 25px;
+      border: 2px solid #10b981;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+      border-color: #34d399;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      color: #10b981;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .card-field {
+      margin-bottom: 15px;
+    }
+
+    .field-label {
+      color: #38bdf8;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+    }
+
+    .field-value {
+      color: #f8fafc;
+      font-size: 16px;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    body.light .result-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: #10b981;
+    }
+
+    body.light .field-value {
+      color: #1e293b;
+    }
+
+    .export-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .page-btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .page-btn:disabled {
+      background: gray;
+      cursor: not-allowed;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 20px;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.8);
+    }
+
+    /* WhatsApp Floating Button */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #38bdf8;
+      color: #fff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 30px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      z-index: 999;
+      transition: 0.3s;
+      text-decoration: none;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+    }
+
+    /* Responsive design */
+    @media (max-width: 480px) {
+      .login-container {
+        margin: 20px;
+        padding: 30px 25px;
+      }
+      
+      .logo-text {
+        font-size: 24px;
+      }
+      
+      .form-input {
+        padding: 14px 18px 14px 45px;
+        font-size: 15px;
+      }
+      
+      .submit-btn {
+        padding: 14px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Page -->
+  <div class="login-page" id="loginPage">
+    <!-- Animated background particles -->
+    <div class="bg-particles" id="particles"></div>
+
+    <div class="login-container">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-database"></i>
+        </div>
+        <div class="logo-text">HJH Sim Database</div>
+        <div class="logo-subtitle">Secure Access Portal</div>
+      </div>
+
+      <!-- Success/Error Messages -->
+      <div class="success-message" id="successMessage">
+        <i class="fas fa-check-circle"></i> <span id="successText">Operation successful!</span>
+      </div>
+      <div class="error-message" id="errorMessage">
+        <i class="fas fa-exclamation-circle"></i> <span id="errorText">An error occurred. Please try again.</span>
+      </div>
+
+      <div class="form-container">
+        <!-- Login Form -->
+        <form class="form" id="loginForm">
+          <div class="form-title">Sign In</div>
+          
+          <div class="form-group">
+            <input 
+              type="text" 
+              class="form-input" 
+              id="loginUsername" 
+              placeholder="Username or Email"
+              required
+              autocomplete="username"
+            >
+            <i class="fas fa-user input-icon"></i>
+          </div>
+
+          <div class="form-group">
+            <input 
+              type="password" 
+              class="form-input" 
+              id="loginPassword" 
+              placeholder="Password"
+              required
+              autocomplete="current-password"
+            >
+            <i class="fas fa-lock input-icon"></i>
+            <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword', this)"></i>
+          </div>
+
+          <button type="submit" class="submit-btn" id="loginBtn">
+            <span class="btn-text">Sign In</span>
+            <div class="loading" id="loginLoading">
+              <div class="spinner"></div>
+            </div>
+          </button>
+        </form>
+
+        <!-- Signup Form -->
+        <form class="form hidden" id="signupForm">
+          <div class="form-title">Sign Up</div>
+          
+          <div class="form-group">
+            <input 
+              type="text" 
+              class="form-input" 
+              id="signupFullName" 
+              placeholder="Full Name"
+              required
+            >
+            <i class="fas fa-user input-icon"></i>
+          </div>
+
+          <div class="form-group">
+            <input 
+              type="email" 
+              class="form-input" 
+              id="signupEmail" 
+              placeholder="Email Address"
+              required
+            >
+            <i class="fas fa-envelope input-icon"></i>
+          </div>
+
+          <div class="form-group">
+            <input 
+              type="text" 
+              class="form-input" 
+              id="signupUsername" 
+              placeholder="Username"
+              required
+            >
+            <i class="fas fa-user-circle input-icon"></i>
+          </div>
+
+          <div class="form-group">
+            <input 
+              type="password" 
+              class="form-input" 
+              id="signupPassword" 
+              placeholder="Password"
+              required
+              minlength="6"
+            >
+            <i class="fas fa-lock input-icon"></i>
+            <i class="fas fa-eye password-toggle" onclick="togglePassword('signupPassword', this)"></i>
+          </div>
+
+          <div class="form-group">
+            <input 
+              type="password" 
+              class="form-input" 
+              id="confirmPassword" 
+              placeholder="Confirm Password"
+              required
+              minlength="6"
+            >
+            <i class="fas fa-lock input-icon"></i>
+            <i class="fas fa-eye password-toggle" onclick="togglePassword('confirmPassword', this)"></i>
+          </div>
+
+          <button type="submit" class="submit-btn" id="signupBtn">
+            <span class="btn-text">Sign Up</span>
+            <div class="loading" id="signupLoading">
+              <div class="spinner"></div>
+            </div>
+          </button>
+        </form>
+      </div>
+
+      <div class="forgot-password" id="forgotPasswordSection">
+        <a href="#" id="forgotPassword">Forgot your password?</a>
+      </div>
+
+      <div class="footer-text">
+        <span id="switchText">Don't have an account?</span> 
+        <a href="#" id="switchLink">Sign up here</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Database Page -->
+  <div class="database-page" id="databasePage">
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-logo"><i class="fas fa-database"></i> HJH Sim Database</div>
+        <div class="header-controls">
+          <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i> Mode</button>
+          <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+      </header>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-box"><i class="fas fa-search"></i> Total Searches: <span id="searchCount">12,542</span></div>
+        <div class="stat-box"><i class="fas fa-database"></i> Records: 5.2M+</div>
+        <div class="stat-box"><i class="fas fa-clock"></i> Updated: Today</div>
+      </div>
+
+      <!-- Search -->
+      <section class="search-section">
+        <h1 class="section-title"><i class="fas fa-search"></i> Phone Number Lookup</h1>
+        <form id="phoneForm" class="search-form">
+          <input type="text" id="phoneNumber" placeholder="Enter Phone Number (10-12 digits)" class="search-input" required>
+          <button type="submit" class="search-btn"><i class="fas fa-search"></i> Search</button>
+        </form>
+      </section>
+
+      <!-- Results -->
+      <section id="resultsSection" class="results-section">
+        <h2 class="section-title"><i class="fas fa-list"></i> Search Results</h2>
+        <input type="text" id="tableFilter" class="filter-input" placeholder="Filter results...">
+        <div id="resultsContainer" class="results-container">
+          <!-- Cards will be dynamically inserted here -->
+        </div>
+        <div class="pagination">
+          <button class="page-btn" id="prevBtn">Previous</button>
+          <span id="pageInfo"></span>
+          <button class="page-btn" id="nextBtn">Next</button>
+        </div>
+        <div class="export-buttons">
+          <button class="export-btn" onclick="exportCSV()"><i class="fas fa-download"></i> Export CSV</button>
+          <button class="export-btn" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer">
+        <div style="margin-bottom: 15px;">
+          <a href="privacy-policy.html" style="color: #38bdf8; text-decoration: none; margin: 0 15px;">Privacy Policy</a>
+          <a href="terms-conditions.html" style="color: #38bdf8; text-decoration: none; margin: 0 15px;">Terms & Conditions</a>
+        </div>
+        Powered by <span>HJH Sim Database</span> © <span id="currentYear"></span>
+      </footer>
+    </div>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/923266571331" class="whatsapp-float" target="_blank">
+      <i class="fab fa-whatsapp"></i>
+    </a>
+  </div>
+
+  <script>
+    // Global variables
+    let currentForm = 'login';
+    let currentData = [];
+    let currentPage = 1;
+    const rowsPerPage = 10;
+
+    // Initialize
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+
+    // Create animated background particles
+    function createParticles() {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 50;
+
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        
+        // Random size between 2px and 8px
+        const size = Math.random() * 6 + 2;
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        
+        // Random position
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        
+        // Random animation delay
+        particle.style.animationDelay = Math.random() * 6 + 's';
+        particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+        
+        particlesContainer.appendChild(particle);
+      }
+    }
+
+    // Password toggle functionality
+    function togglePassword(inputId, toggleIcon) {
+      const passwordInput = document.getElementById(inputId);
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+
+    // Show message function
+    function showMessage(type, text) {
+      const successMessage = document.getElementById('successMessage');
+      const errorMessage = document.getElementById('errorMessage');
+      const successText = document.getElementById('successText');
+      const errorText = document.getElementById('errorText');
+
+      // Hide both messages first
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+
+      if (type === 'success') {
+        successText.textContent = text;
+        successMessage.style.display = 'block';
+      } else {
+        errorText.textContent = text;
+        errorMessage.style.display = 'block';
+      }
+
+      // Auto hide after 5 seconds
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+      }, 5000);
+    }
+
+    // Switch between login and signup forms
+    function switchForm() {
+      const loginForm = document.getElementById('loginForm');
+      const signupForm = document.getElementById('signupForm');
+      const switchText = document.getElementById('switchText');
+      const switchLink = document.getElementById('switchLink');
+      const forgotPasswordSection = document.getElementById('forgotPasswordSection');
+
+      if (currentForm === 'login') {
+        // Switch to signup
+        loginForm.classList.add('hidden');
+        signupForm.classList.remove('hidden');
+        switchText.textContent = 'Already have an account?';
+        switchLink.textContent = 'Sign in here';
+        forgotPasswordSection.style.display = 'none';
+        currentForm = 'signup';
+      } else {
+        // Switch to login
+        signupForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        switchText.textContent = "Don't have an account?";
+        switchLink.textContent = 'Sign up here';
+        forgotPasswordSection.style.display = 'block';
+        currentForm = 'login';
+      }
+
+      // Clear all form fields
+      document.querySelectorAll('.form-input').forEach(input => {
+        input.value = '';
+      });
+
+      // Hide messages
+      document.getElementById('successMessage').style.display = 'none';
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+
+    // Local Storage functions
+    function saveUserToStorage(userData) {
+      let users = JSON.parse(localStorage.getItem('hjh_users') || '[]');
+      users.push(userData);
+      localStorage.setItem('hjh_users', JSON.stringify(users));
+    }
+
+    function getUserFromStorage(username, password) {
+      const users = JSON.parse(localStorage.getItem('hjh_users') || '[]');
+      return users.find(user => 
+        (user.username === username || user.email === username) && 
+        user.password === password
+      );
+    }
+
+    function userExists(username, email) {
+      const users = JSON.parse(localStorage.getItem('hjh_users') || '[]');
+      return users.some(user => 
+        user.username === username || user.email === email
+      );
+    }
+
+    // Show database page
+    function showDatabasePage() {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('databasePage').classList.add('show');
+    }
+
+    // Show login page
+    function showLoginPage() {
+      document.getElementById('loginPage').classList.remove('hidden');
+      document.getElementById('databasePage').classList.remove('show');
+    }
+
+    // Login form submission
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = document.getElementById('loginUsername').value.trim();
+      const password = document.getElementById('loginPassword').value;
+      const loginBtn = document.getElementById('loginBtn');
+      const btnText = loginBtn.querySelector('.btn-text');
+      const loading = document.getElementById('loginLoading');
+
+      if (!username || !password) {
+        showMessage('error', 'Please fill in all fields.');
+        return;
+      }
+
+      // Show loading state
+      btnText.style.opacity = '0';
+      loading.style.display = 'block';
+      loginBtn.disabled = true;
+
+      // Simulate login process
+      setTimeout(() => {
+        // Check if user exists in localStorage
+        const user = getUserFromStorage(username, password);
+        
+        if (user) {
+          // Success - save current user session
+          localStorage.setItem('hjh_current_user', JSON.stringify(user));
+          showMessage('success', `Welcome back, ${user.fullName}! Redirecting...`);
+          
+          setTimeout(() => {
+            showDatabasePage();
+          }, 2000);
+        } else {
+          // Check default admin credentials
+          if (username === 'admin' && password === 'password123') {
+            const adminUser = {
+              fullName: 'Administrator',
+              username: 'admin',
+              email: 'admin@hjhsim.com',
+              password: 'password123',
+              isAdmin: true
+            };
+            localStorage.setItem('hjh_current_user', JSON.stringify(adminUser));
+            showMessage('success', 'Welcome Administrator! Redirecting...');
+            
+            setTimeout(() => {
+              showDatabasePage();
+            }, 2000);
+          } else {
+            // Error
+            showMessage('error', 'Invalid username/email or password. Please try again.');
+            
+            // Reset button state
+            btnText.style.opacity = '1';
+            loading.style.display = 'none';
+            loginBtn.disabled = false;
+            
+            // Clear password field
+            document.getElementById('loginPassword').value = '';
+          }
+        }
+      }, 1500);
+    });
+
+    // Signup form submission
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const fullName = document.getElementById('signupFullName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const username = document.getElementById('signupUsername').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const signupBtn = document.getElementById('signupBtn');
+      const btnText = signupBtn.querySelector('.btn-text');
+      const loading = document.getElementById('signupLoading');
+
+      // Validation
+      if (!fullName || !email || !username || !password || !confirmPassword) {
+        showMessage('error', 'Please fill in all fields.');
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage('error', 'Passwords do not match.');
+        return;
+      }
+
+      if (password.length < 6) {
+        showMessage('error', 'Password must be at least 6 characters long.');
+        return;
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        showMessage('error', 'Please enter a valid email address.');
+        return;
+      }
+
+      // Check if user already exists
+      if (userExists(username, email)) {
+        showMessage('error', 'Username or email already exists. Please choose different ones.');
+        return;
+      }
+
+      // Show loading state
+      btnText.style.opacity = '0';
+      loading.style.display = 'block';
+      signupBtn.disabled = true;
+
+      // Simulate signup process
+      setTimeout(() => {
+        // Create new user object
+        const newUser = {
+          fullName: fullName,
+          email: email,
+          username: username,
+          password: password,
+          createdAt: new Date().toISOString(),
+          isAdmin: false
+        };
+
+        // Save to localStorage
+        saveUserToStorage(newUser);
+        
+        // Show success message
+        showMessage('success', 'Account created successfully! You can now sign in.');
+        
+        // Reset form and switch to login
+        setTimeout(() => {
+          switchForm();
+          
+          // Pre-fill login username
+          document.getElementById('loginUsername').value = username;
+        }, 2000);
+
+        // Reset button state
+        btnText.style.opacity = '1';
+        loading.style.display = 'none';
+        signupBtn.disabled = false;
+      }, 1500);
+    });
+
+    // Switch form link
+    document.getElementById('switchLink').addEventListener('click', function(e) {
+      e.preventDefault();
+      switchForm();
+    });
+
+    // Forgot password link
+    document.getElementById('forgotPassword').addEventListener('click', function(e) {
+      e.preventDefault();
+      showMessage('error', 'Password reset functionality is not implemented yet. Please contact administrator.');
+    });
+
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', function() {
+      document.body.classList.toggle('light');
+    });
+
+    // Logout functionality
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.removeItem('hjh_current_user');
+      showLoginPage();
+    });
+
+    // Database functionality
+    const form = document.getElementById('phoneForm');
+    const resultsSection = document.getElementById('resultsSection');
+    const resultsContainer = document.getElementById('resultsContainer');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phoneNumber = document.getElementById('phoneNumber').value.trim();
+      if (!phoneNumber.match(/^\+?\d{10,12}$/)) {
+        alert('Invalid phone number');
+        return;
+      }
+      resultsSection.classList.add('show');
+      resultsContainer.innerHTML = "<div style='text-align:center;padding:40px;color:#38bdf8;font-size:18px;'><i class='fas fa-spinner fa-spin'></i> Loading...</div>";
+
+      try {
+        const response = await fetch(`https://famofcfallxd.serv00.net/apis/simdata2.php?num=${encodeURIComponent(phoneNumber)}`);
+        const data = await response.json();
+        if (data.status === 'success' && data.data.length > 0) {
+          currentData = data.data;
+          currentPage = 1;
+          renderCards();
+        } else {
+          resultsContainer.innerHTML = "<div style='text-align:center;padding:40px;color:#ef4444;font-size:18px;'><i class='fas fa-exclamation-circle'></i> No Results Found</div>";
+        }
+      } catch (err) {
+        resultsContainer.innerHTML = `<div style='text-align:center;padding:40px;color:#ef4444;font-size:18px;'><i class='fas fa-exclamation-triangle'></i> Error: ${err.message}</div>`;
+      }
+    });
+
+    function renderCards() {
+      if (currentData.length === 0) return;
+      
+      let start = (currentPage - 1) * rowsPerPage;
+      let end = start + rowsPerPage;
+      let pageData = currentData.slice(start, end);
+
+      let cardsHTML = pageData.map((record, index) => {
+        const recordNumber = start + index + 1;
+        const keys = Object.keys(record);
+        
+        let fieldsHTML = keys.map(key => `
+          <div class="card-field">
+            <div class="field-label">${key}</div>
+            <div class="field-value">${record[key] || 'N/A'}</div>
+          </div>
+        `).join('');
+
+        return `
+          <div class="result-card">
+            <div class="card-header">
+              <i class="fas fa-check-circle"></i>
+              Record ${recordNumber}
+            </div>
+            ${fieldsHTML}
+          </div>
+        `;
+      }).join('');
+
+      resultsContainer.innerHTML = cardsHTML;
+
+      document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${Math.ceil(currentData.length / rowsPerPage)}`;
+      document.getElementById('prevBtn').disabled = currentPage === 1;
+      document.getElementById('nextBtn').disabled = end >= currentData.length;
+    }
+
+    // Pagination controls
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentPage > 1) {
+        currentPage--;
+        renderCards();
+      }
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentPage < Math.ceil(currentData.length / rowsPerPage)) {
+        currentPage++;
+        renderCards();
+      }
+    });
+
+    // Filter
+    document.getElementById('tableFilter').addEventListener('input', (e) => {
+      const val = e.target.value.toLowerCase();
+      const originalData = window.originalData || currentData;
+      if (!window.originalData) window.originalData = [...currentData];
+      
+      if (val === '') {
+        currentData = [...originalData];
+      } else {
+        currentData = originalData.filter(row => Object.values(row).some(v => String(v).toLowerCase().includes(val)));
+      }
+      currentPage = 1;
+      renderCards();
+    });
+
+    // Export CSV
+    function exportCSV() {
+      if (currentData.length === 0) return;
+      const keys = Object.keys(currentData[0]);
+      let csv = [keys.join(',')];
+      currentData.forEach(row => {
+        csv.push(keys.map(k => `"${row[k] || ''}"`).join(','));
+      });
+      let blob = new Blob([csv.join('\n')], { type: 'text/csv' });
+      let link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'results.csv';
+      link.click();
+    }
+
+    // Export PDF
+    async function exportPDF() {
+      if (currentData.length === 0) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'landscape' });
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(16);
+      doc.text('HJH Sim Database - Search Results', 14, 20);
+
+      let keys = Object.keys(currentData[0]);
+      let y = 35;
+      doc.setFontSize(10);
+      doc.text(keys.join(' | '), 14, y);
+      y += 8;
+
+      currentData.forEach(row => {
+        doc.text(keys.map(k => String(row[k] || '')).join(' | '), 14, y);
+        y += 7;
+        if (y > 190) {
+          doc.addPage();
+          y = 20;
+        }
+      });
+
+      doc.save('results.pdf');
+    }
+
+    // Input focus effects
+    document.querySelectorAll('.form-input').forEach(input => {
+      input.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+      });
+      
+      input.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+      });
+    });
+
+    // Initialize particles when page loads
+    window.addEventListener('load', createParticles);
+
+    // Add some keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      // Alt + L to focus username field
+      if (e.altKey && e.key === 'l') {
+        e.preventDefault();
+        if (currentForm === 'login') {
+          document.getElementById('loginUsername').focus();
+        } else {
+          document.getElementById('signupFullName').focus();
+        }
+      }
+    });
+
+    // Check if user is already logged in
+    window.addEventListener('load', function() {
+      const currentUser = localStorage.getItem('hjh_current_user');
+      if (currentUser) {
+        const user = JSON.parse(currentUser);
+        showDatabasePage();
+      }
+    });
+  </script>
+</body>
+</html>
+

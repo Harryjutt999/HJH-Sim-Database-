@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms & Conditions - HJH Sim Database</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#0f172a,#1e3a8a);color:#f8fafc;min-height:100vh;}
+    body.light{background:linear-gradient(135deg,#e0f2fe,#bae6fd);color:#1e293b;}
+    .container{max-width:1000px;margin:0 auto;padding:20px;}
+    .header{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.8);padding:15px 25px;border-radius:15px;margin-bottom:30px;backdrop-filter:blur(8px);}
+    body.light .header{background:rgba(255,255,255,0.9);}
+    .logo{font-size:24px;font-weight:700;color:#38bdf8;display:flex;align-items:center;gap:8px;}
+    .theme-toggle{cursor:pointer;background:#38bdf8;color:#000;border:none;padding:8px 15px;border-radius:20px;font-weight:600;transition:0.3s;}
+    .back-btn{background:#38bdf8;color:#fff;border:none;padding:6px 12px;border-radius:20px;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:0.3s;}
+    .back-btn:hover{background:#1d4ed8;}
+    .content-section{background:rgba(255,255,255,0.1);padding:40px;border-radius:20px;margin-bottom:30px;}
+    .section-title{text-align:center;font-size:32px;font-weight:700;margin-bottom:30px;color:#38bdf8;}
+    .content{line-height:1.8;font-size:16px;}
+    .content h2{color:#38bdf8;font-size:24px;margin:30px 0 15px 0;font-weight:600;}
+    .content h3{color:#60a5fa;font-size:20px;margin:25px 0 12px 0;font-weight:600;}
+    .content p{margin-bottom:15px;}
+    .content ul{margin:15px 0 15px 25px;}
+    .content li{margin-bottom:8px;}
+    .footer{text-align:center;padding:20px;border-radius:15px;background:rgba(0,0,0,0.8);}
+    body.light .footer{background:rgba(255,255,255,0.9);}
+    /* WhatsApp Floating Button */
+    .whatsapp-float{
+      position:fixed;
+      bottom:20px;
+      right:20px;
+      background:#38bdf8;
+      color:#fff;
+      border-radius:50%;
+      width:60px;
+      height:60px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:30px;
+      box-shadow:none;
+      z-index:999;
+      transition:0.3s;
+      text-decoration:none;
+    }
+    .whatsapp-float:hover{transform:scale(1.1);}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo"><i class="fas fa-database"></i> HJH Sim Database</div>
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i> Mode</button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <section class="content-section">
+      <h1 class="section-title"><i class="fas fa-file-contract"></i> Terms & Conditions</h1>
+      <div class="content">
+        <p><strong>Last updated:</strong> <span id="currentDate"></span></p>
+        
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing and using HJH Sim Database ("the Service"), you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.</p>
+
+        <h2>2. Description of Service</h2>
+        <p>HJH Sim Database provides a phone number lookup service that allows users to search for information associated with phone numbers. The service includes:</p>
+        <ul>
+          <li>Phone number verification and lookup functionality</li>
+          <li>Database search capabilities</li>
+          <li>Export features for search results</li>
+          <li>User interface for data interaction</li>
+        </ul>
+
+        <h2>3. User Responsibilities</h2>
+        <p>As a user of our service, you agree to:</p>
+        <ul>
+          <li><strong>Lawful Use:</strong> Use the service only for lawful purposes and in accordance with applicable laws</li>
+          <li><strong>Accurate Information:</strong> Provide accurate and complete information when using our service</li>
+          <li><strong>Prohibited Activities:</strong> Not engage in any activity that could harm, disable, or impair the service</li>
+          <li><strong>Respect Privacy:</strong> Respect the privacy and rights of others when using the information obtained</li>
+          <li><strong>No Misuse:</strong> Not attempt to gain unauthorized access to any part of the service</li>
+        </ul>
+
+        <h2>4. Prohibited Uses</h2>
+        <p>You may not use our service for any of the following purposes:</p>
+        <ul>
+          <li>Harassment, stalking, or threatening behavior</li>
+          <li>Spam, phishing, or fraudulent activities</li>
+          <li>Violation of privacy laws or regulations</li>
+          <li>Commercial use without proper authorization</li>
+          <li>Automated data scraping or bulk downloading</li>
+          <li>Any illegal or unauthorized purpose</li>
+        </ul>
+
+        <h2>5. Data Accuracy and Limitations</h2>
+        <p>While we strive to provide accurate and up-to-date information, we cannot guarantee:</p>
+        <ul>
+          <li>The completeness or accuracy of all data in our database</li>
+          <li>That information will be current or error-free</li>
+          <li>Continuous availability of the service</li>
+          <li>That the service will meet your specific requirements</li>
+        </ul>
+
+        <h2>6. Intellectual Property Rights</h2>
+        <p>The service and its original content, features, and functionality are and will remain the exclusive property of HJH Sim Database and its licensors. The service is protected by copyright, trademark, and other laws.</p>
+
+        <h2>7. Privacy and Data Protection</h2>
+        <p>Your privacy is important to us. Our collection and use of personal information is governed by our Privacy Policy, which is incorporated into these Terms by reference. By using our service, you consent to the collection and use of information as outlined in our Privacy Policy.</p>
+
+        <h2>8. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by applicable law, HJH Sim Database shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation:</p>
+        <ul>
+          <li>Loss of profits, data, use, goodwill, or other intangible losses</li>
+          <li>Damages resulting from unauthorized access to or use of our service</li>
+          <li>Damages resulting from any conduct or content of any third party</li>
+          <li>Damages resulting from any content obtained from the service</li>
+        </ul>
+
+        <h2>9. Disclaimer of Warranties</h2>
+        <p>The service is provided on an "AS IS" and "AS AVAILABLE" basis. HJH Sim Database expressly disclaims all warranties of any kind, whether express or implied, including but not limited to:</p>
+        <ul>
+          <li>Implied warranties of merchantability and fitness for a particular purpose</li>
+          <li>Non-infringement of third-party rights</li>
+          <li>Accuracy, reliability, or completeness of information</li>
+          <li>Uninterrupted or error-free operation</li>
+        </ul>
+
+        <h2>10. Indemnification</h2>
+        <p>You agree to defend, indemnify, and hold harmless HJH Sim Database and its affiliates from and against any and all claims, damages, obligations, losses, liabilities, costs, or debt, and expenses (including attorney's fees) arising from your use of the service or violation of these Terms.</p>
+
+        <h2>11. Termination</h2>
+        <p>We may terminate or suspend your access to the service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms. Upon termination, your right to use the service will cease immediately.</p>
+
+        <h2>12. Governing Law</h2>
+        <p>These Terms shall be interpreted and governed by the laws of the jurisdiction in which HJH Sim Database operates, without regard to its conflict of law provisions. Any disputes arising from these Terms will be subject to the exclusive jurisdiction of the courts in that jurisdiction.</p>
+
+        <h2>13. Changes to Terms</h2>
+        <p>We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will try to provide at least 30 days notice prior to any new terms taking effect.</p>
+
+        <h2>14. Severability</h2>
+        <p>If any provision of these Terms is held to be unenforceable or invalid, such provision will be changed and interpreted to accomplish the objectives of such provision to the greatest extent possible under applicable law, and the remaining provisions will continue in full force and effect.</p>
+
+        <h2>15. Contact Information</h2>
+        <p>If you have any questions about these Terms & Conditions, please contact us:</p>
+        <ul>
+          <li><strong>WhatsApp:</strong> <a href="https://wa.me/923266571331" style="color: #38bdf8;">+92 326 6571331</a></li>
+          <li><strong>Website:</strong> HJH Sim Database</li>
+        </ul>
+
+        <p style="margin-top: 30px; font-style: italic; color: #94a3b8;">By using HJH Sim Database, you acknowledge that you have read, understood, and agree to be bound by these Terms & Conditions.</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div style="margin-bottom: 15px;">
+        <a href="index.html" style="color: #38bdf8; text-decoration: none; margin: 0 15px;">Home</a>
+        <a href="privacy-policy.html" style="color: #38bdf8; text-decoration: none; margin: 0 15px;">Privacy Policy</a>
+      </div>
+      Powered by <span>HJH Sim Database</span> © <span id="currentYear"></span>
+    </footer>
+  </div>
+
+  <!-- WhatsApp Floating Button -->
+  <a href="https://wa.me/923266571331" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <script>
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+    document.getElementById("currentDate").textContent = new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("light");
+    });
+  </script>
+</body>
+</html>
+
