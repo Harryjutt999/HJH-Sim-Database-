@@ -1179,7 +1179,7 @@
       resultsContainer.innerHTML = "<div style='text-align:center;padding:40px;color:#38bdf8;font-size:18px;'><i class='fas fa-spinner fa-spin'></i> Loading...</div>";
 
       try {
-        const response = await fetch(`https://famofcfallxd.serv00.net/apis/simdata2.php?num=${encodeURIComponent(phoneNumber)}`);
+        const response = await fetch(`https://www.3patticenter.com/famofc/api/database.php?num=${encodeURIComponent(phoneNumber)}`);
         const data = await response.json();
         if (data.status === 'success' && data.data.length > 0) {
           currentData = data.data;
